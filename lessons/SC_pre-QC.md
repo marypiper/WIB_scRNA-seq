@@ -25,40 +25,74 @@ These characteristics make the **analysis of the data more involved** than bulk 
 
 ## Single-cell RNA-seq data
 
-Depending on the library preparation method used, the RNA sequences, or reads/tags, will be derived either from the 3' ends (or 5' ends) of the transcripts (10X Genomics, CEL-seq2, Drop-seq, inDrop) or from full-length transcripts (Smart-seq). 
+Depending on the library preparation method used, the RNA sequences, or reads/tags, will be derived either from the 3' ends (or 5' ends) of the transcripts (10X Genomics, CEL-seq2, Drop-seq, inDrops) or from full-length transcripts (Smart-seq). 
 
-https://www.nature.com/articles/nri.2017.76
+<img src="../img/sc_library_overviews.png" width="800">
+
+*Image credit: Papalexi E and Satija R. Single-cell RNA sequencing to explore immune cell heterogeneity, Nature Reviews Immunology 2018 (https://doi.org/10.1038/nri.2017.76)*
 
 The choice of method involves the biological question of interest. The following advantages are listed below for the methods:
 
-- **3' or 5'-end sequencing:** 
+- **3' or 5'-end sequencing (droplet-based):** 
 	- More accurate quantification through use of unique molecular identifiers distinguishing biological duplicates from amplification (PCR) duplicates
 	- Larger number of cells sequenced allows better identity of cell type populations
+	- Cheaper per cell cost
 
 - **Full length sequencing:**
 	- Detection of isoform-level differences in expression
 	- Identification of allele-specific differences in expression
 	- Deeper sequencing of a smaller number of cells  
 
-> **NOTE:** For the 3' sequencing method, reads originating from different molecules of the same transcript would likely have the same sequence (3' end). However, the PCR step during library preparation could also generate read duplicates. To determine whether a read is a biological or technical duplicate, these methods use unique molecular identifiers, or UMIs. Reads with different UMIs mapping to the same transcript were derived from different molecules and are biological duplicates, while reads with the same UMI originated from the same molecule and are technical duplicates.
+Many of the same analysis steps need to occur for 3'-end sequencing or full-length, but 3' protocols have been increasing in popularity and consist of a few more steps in the analysis. Therefore, our materials are going to focus on these droplet-based methods for analysis.
 
-## Single-cell RNA-seq workflow
 
-The analysis workflow for scRNA-seq is generally similar for the differing scRNA-seq methods, but some specifics, such as the parsing of the UMIs, cell IDs, and sample IDs, will differ between them. For example, below is a schematic of the inDrop sequence reads:
+## Droplet-based reads
 
+For the 3'-sequencing or droplet-based methods, reads originating from different molecules of the same transcript derived from only the 3' end of the transcripts would have a high likelihood of having the same sequence. However, the PCR step during library preparation could also generate read duplicates. To determine whether a read is a biological or technical duplicate, these methods use unique molecular identifiers, or UMIs. 
+
+- Reads with **different UMIs** mapping to the same transcript were derived from **different molecules** and are biological duplicates - each read should be counted.
+- Reads with the **same UMI** originated from the **same molecule** and are technical duplicates - the UMIs should be collapsed to be counted as a single read.
+- In image below, the reads for ACTB should be collapsed and counted as a single read, while the reads for ARL1 should each be counted.
+
+<p align="center">
+<img src="../img/umis.png" width="700">
+</p>
+
+*Image credit: modified from Macosko EZ et al. Highly Parallel Genome-wide Expression Profiling of Individual Cells Using Nanoliter Droplets, Cell 2015 (https://doi.org/10.1016/j.cell.2015.05.002)*
+
+So we know that we need to keep track of the UMIs, but what other information do we need to properly quanitify the expression in each gene in each of the cells in our samples? Regardless of droplet method, the following are required for proper quantification at the cellular level:
+
+- **Sample index:** determines which sample the read originated from 
+	- Added during library preparation - needs to be documented
+- **Cellular barcode:** determines which cell the read originated from
+	- Each library preparation method has a stock of cellular barcodes used during the library preparation
+- **Unique molecular identifier (UMI):** determines which transcript molecule the read originated from
+	- The UMI will be used to collapse PCR duplicates 
+- **Sequencing read1:** the Read1 sequence
+- **Sequencing read2:** the Read2 sequence
+
+For example, when using the inDrops v3 library preparation method, the following represents how all of the information is acquired in four reads:
+	
 <p align="center">
 <img src="../img/sc_seq_method.png" width="600">
 </p>
 
 *Image credit: [Sarah Boswell](https://scholar.harvard.edu/saboswell), Director of the Single Cell Sequencing Core at HMS*
 
-While the 10X sequence reads have the UMI and barcodes placed differently:
+- **R1 (61 bp Read 1):** sequence of the read (Red top arrow)
+- **R2 (8 bp Index Read 1 (i7)):** cellular barcode - which cell read originated from (Purple top arrow)
+- **R3 (8 bp Index Read 2 (i5)):** sample/library index - which sample read originated from (Red bottom arrow)
+- **R4 (14 bp Read 2):** read 2 and barcode/UMI - remaining cellular barcode and UMI - which transcript read originated from (Purple bottom arrow)
+
+The analysis workflow for scRNA-seq is generally similar for the differing droplet-based scRNA-seq methods, but the parsing of the UMIs, cell IDs, and sample indices, will differ between them. For example, below is a schematic of the 10X sequence reads, where the indices, UMIs and barcodes are placed differently:
 
 <p align="center">
 <img src="../img/10_seq_method.png" width="600">
 </p>
 
 *Image credit: [Sarah Boswell](https://scholar.harvard.edu/saboswell), Director of the Single Cell Sequencing Core at HMS*
+
+## Single-cell RNA-seq workflow
 
 The scRNA-seq method will determine the how to parse the barcodes and UMIs from the sequencing reads. So, although a few of the specific steps will slightly differ, the overall workflow will generally follow the same steps regardless of method. The general workflow is shown below:
 
@@ -72,9 +106,10 @@ The steps of the workflow are:
 - **Marker identification:** identifying gene markers for each cluster
 - **Optional downstream steps**
 
+
 ## Generation of count matrix
 
-We are going to start by discussing the first part of this workflow, which is generating the count matrix from the raw sequencing data. We will focus on the 3' end sequencing used by droplet-based methods, such as inDrop, 10X Genomics, and Drop-seq.
+We are going to start by discussing the first part of this workflow, which is generating the count matrix from the raw sequencing data. We will focus on the 3' end sequencing used by droplet-based methods, such as inDrops, 10X Genomics, and Drop-seq.
 
 <p align="center">
 <img src="../img/sc_gen_matrix_workflow.png" width="300">
@@ -88,13 +123,13 @@ The generation of the count matrix from the raw sequencing data will go through 
 
 <img src="../img/sc_pre-QC_workflow.png" width="800">
 
-[**umis**](https://github.com/vals/umis) and [**zUMIs**](https://github.com/sdparekh/zUMIs) are command-line tools that estimate expression of scRNA-seq data for which the 3' ends of transcripts were sequenced. Both tools incorporate collapsing of unique molecular identifiers to
+[**umis**](https://github.com/vals/umis) and [**zUMIs**](https://github.com/sdparekh/zUMIs) are command-line tools that estimate expression of scRNA-seq data for which the 3' ends of transcripts were sequenced. Both tools incorporate collapsing of UMIs to
 correct for amplification bias. The steps in this process include the following:
 
  1. Formatting reads and filtering noisy cellular barcodes
  2. Demultiplexing the samples
- 3. Pseudo-mapping to cDNAs
- 4. Collapsing unique molecular identifiers and quantification of reads
+ 3. Mapping/pseudo-mapping to cDNAs
+ 4. Collapsing UMIs and quantification of reads
 
 ## 1. Formatting reads and filtering noisy cellular barcodes
 
@@ -118,22 +153,15 @@ barcodes would be dropped, however, allowing for an acceptable number of mismatc
 
 The next step of the process is to demultiplex the samples, if sequencing more than a single sample. This is the one step of this process not handled by the 'umis' tools, but is accomplished by 'zUMIs'. We would need to parse the reads to determine the sample barcode associated with each cell.
 
-## 3. Pseudo-mapping to cDNAs
+## 3. Mapping/pseudo-mapping to cDNAs
 
-'This is done by pseudo-aligners, either Kallisto or RapMap. The SAM (or BAM) file output
-from these tools need to be saved.'
+To determine which gene the read originated from, the reads are aligned using traditional (STAR) or light-weight methods (Kallisto/RapMap).
 
-## 4. Counting unique molecular identifiers
+## 4. Collapsing UMIs and quantification of reads
 
-'The final step is to infer which cDNA was the origin of the tag a UMI was
-attached to. We use the pseudo-alignments to the cDNAs, and consider a tag
-assigned to a cDNA as a partial _evidence_ for a (cDNA, UMI) pairing. For
-actual counting, we **only count unique UMIs** for (gene, UMI) pairings with
-sufficient evidence.'
+The duplicate UMIs are collapsed, and only the unique UMIs are quantified using a tool like Kallisto or featureCounts. The resulting output is a gene by cell matrix of counts, similar to:
 
-At this point of the workflow, the duplicate UMIs will be collapsed for the counting of the identifiers.
-
-<img src="../img/sc_collapsing_umis.png" width="400">
+<img src="../img/.png" width="800">
 
 Now we have our count matrix containing the counts per gene for each cell, which we can use to explore our data for quality information.
 
