@@ -55,7 +55,7 @@ For the 3'-end sequencing methods, reads originating from different molecules of
 - In image below, the reads for ACTB should be collapsed and counted as a single read, while the reads for ARL1 should each be counted.
 
 <p align="center">
-<img src="../img/umis.png" width="700">
+<img src="../img/umis.png" width="600">
 </p>
 
 *Image credit: modified from Macosko EZ et al. Highly Parallel Genome-wide Expression Profiling of Individual Cells Using Nanoliter Droplets, Cell 2015 (https://doi.org/10.1016/j.cell.2015.05.002)*
@@ -172,6 +172,7 @@ The duplicate UMIs are collapsed, and only the unique UMIs are quantified using 
 
 Each value in the matrix represents the number of reads in a cell originating from the corresponding gene. Using the count matrix, we can explore and filter our data, keeping only the higher quality cells.
 
+[Click here for next lesson]()
 ***
 
 *This lesson has been developed by members of the teaching team at the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/). These are open access materials distributed under the terms of the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.*
