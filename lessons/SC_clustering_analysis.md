@@ -243,7 +243,7 @@ We would generally want to go back through the clustering, but change parameters
 
 After we have identified our desired clusters, we can move on to marker identification, which will allow us to verify the identity of certain clusters and help surmise the identity of any unknown clusters. Since we have two clusters identified as CD4 T cells, we may also want to know which genes are differentially expressed between these two clusters.
 
-[Click here for next lesson]()
+[Click here for next lesson](https://github.com/marypiper/WIB_scRNA-seq/blob/master/lessons/SC_marker_identification.md)
 
 ***
 
