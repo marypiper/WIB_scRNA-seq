@@ -43,12 +43,12 @@ The choice of method involves the biological question of interest. The following
 	- Identification of allele-specific differences in expression
 	- Deeper sequencing of a smaller number of cells  
 
-Many of the same analysis steps need to occur for 3'-end sequencing or full-length, but 3' protocols have been increasing in popularity and consist of a few more steps in the analysis. Therefore, our materials are going to focus on these droplet-based methods for analysis.
+Many of the same analysis steps need to occur for 3'-end sequencing as for full-length, but 3' protocols have been increasing in popularity and consist of a few more steps in the analysis. Therefore, our materials are going to focus on these 3' protocols with a focus on the droplet-based methods (inDrops, Drop-seq, 10 Genomics) for analysis.
 
 
 ## Droplet-based reads
 
-For the 3'-sequencing or droplet-based methods, reads originating from different molecules of the same transcript derived from only the 3' end of the transcripts would have a high likelihood of having the same sequence. However, the PCR step during library preparation could also generate read duplicates. To determine whether a read is a biological or technical duplicate, these methods use unique molecular identifiers, or UMIs. 
+For the droplet-based methods, reads originating from different molecules of the same transcript would have originated only from the 3' end of the transcripts, so would have a high likelihood of having the same sequence. However, the PCR step during library preparation could also generate read duplicates. To determine whether a read is a biological or technical duplicate, these methods use unique molecular identifiers, or UMIs. 
 
 - Reads with **different UMIs** mapping to the same transcript were derived from **different molecules** and are biological duplicates - each read should be counted.
 - Reads with the **same UMI** originated from the **same molecule** and are technical duplicates - the UMIs should be collapsed to be counted as a single read.
@@ -82,9 +82,9 @@ For example, when using the inDrops v3 library preparation method, the following
 - **R1 (61 bp Read 1):** sequence of the read (Red top arrow)
 - **R2 (8 bp Index Read 1 (i7)):** cellular barcode - which cell read originated from (Purple top arrow)
 - **R3 (8 bp Index Read 2 (i5)):** sample/library index - which sample read originated from (Red bottom arrow)
-- **R4 (14 bp Read 2):** read 2 and barcode/UMI - remaining cellular barcode and UMI - which transcript read originated from (Purple bottom arrow)
+- **R4 (14 bp Read 2):** read 2 and remaining cellular barcode and UMI - which transcript read originated from (Purple bottom arrow)
 
-The analysis workflow for scRNA-seq is generally similar for the differing droplet-based scRNA-seq methods, but the parsing of the UMIs, cell IDs, and sample indices, will differ between them. For example, below is a schematic of the 10X sequence reads, where the indices, UMIs and barcodes are placed differently:
+The analysis workflow for scRNA-seq is similar for the different droplet-based scRNA-seq methods, but the parsing of the UMIs, cell IDs, and sample indices, will differ between them. For example, below is a schematic of the 10X sequence reads, where the indices, UMIs and barcodes are placed differently:
 
 <p align="center">
 <img src="../img/10_seq_method.png" width="600">
@@ -94,7 +94,7 @@ The analysis workflow for scRNA-seq is generally similar for the differing dropl
 
 ## Single-cell RNA-seq workflow
 
-The scRNA-seq method will determine the how to parse the barcodes and UMIs from the sequencing reads. So, although a few of the specific steps will slightly differ, the overall workflow will generally follow the same steps regardless of method. The general workflow is shown below:
+The scRNA-seq method will determine how to parse the barcodes and UMIs from the sequencing reads. So, although a few of the specific steps will slightly differ, the overall workflow will generally follow the same steps regardless of method. The general workflow is shown below:
 
 <img src="../img/sc_workflow.png" width="800">
 
@@ -139,7 +139,7 @@ The FASTQ files can then be used to parse out the cell barcodes, UMIs, and sampl
 - uncomplex small cells (RBCs, etc.)
 - cells that failed for some reason
 
-These excess barcodes need to be filtered out of the sequence data prior to read alignment. To do this filtering the 'cellular barcode' and the 'molecular barcode' is extracted and saved for each cell. For example, if using 'umis' tools, the information is added to the header line for each read, with the following format:
+These excess barcodes need to be filtered out of the sequence data prior to read alignment. To do this filtering the 'cellular barcode' and the 'molecular barcode' are extracted and saved for each cell. For example, if using 'umis' tools, the information is added to the header line for each read, with the following format:
 
     @HWI-ST808:130:H0B8YADXX:1:1101:2088:2222:CELL_GGTCCA:UMI_CCCT
     AGGAAGATGGAGGAGAGAAGGCGGTGAAAGAGACCTGTAAAAAGCCACCGN
@@ -147,7 +147,7 @@ These excess barcodes need to be filtered out of the sequence data prior to read
     @@@DDBD>=AFCF+<CAFHDECII:DGGGHGIGGIIIEHGIIIGIIDHII#
 
 Known cellular barcodes used in the library preparation method should be known, and unknown
-barcodes would be dropped, however, allowing for an acceptable number of mismatches to the known cellular barcodes.
+barcodes would be dropped, while allowing for an acceptable number of mismatches to the known cellular barcodes.
 
 ## 2. Demultiplexing sample reads
 
