@@ -1,4 +1,4 @@
-s---
+---
 title: "Single-cell RNA-seq: Generation of count matrix"
 author: "Mary Piper, Lorena Pantano, Meeta Mistry, Radhika Khetani, Rory Kirchner"
 date: Monday, April 22nd, 2019
