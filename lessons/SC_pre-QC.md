@@ -25,7 +25,7 @@ These characteristics make the **analysis of the data more involved** than bulk 
 
 ## Single-cell RNA-seq data
 
-Depending on the library preparation method used, the RNA sequences, or reads/tags, will be derived either from the 3' ends (or 5' ends) of the transcripts (10X Genomics, CEL-seq2, Drop-seq, inDrops) or from full-length transcripts (Smart-seq). 
+Depending on the library preparation method used, the RNA sequences (also referred to as reads or tags), will be derived either from the 3' ends (or 5' ends) of the transcripts (10X Genomics, CEL-seq2, Drop-seq, inDrops) or from full-length transcripts (Smart-seq). 
 
 <img src="../img/sc_library_overviews.png" width="800">
 
