@@ -33,7 +33,7 @@ Depending on the library preparation method used, the RNA sequences (also referr
 
 The choice of method involves the biological question of interest. The following advantages are listed below for the methods:
 
-- **3' or 5'-end sequencing (droplet-based):** 
+- **3' or 5'-end sequencing:** 
 	- More accurate quantification through use of unique molecular identifiers distinguishing biological duplicates from amplification (PCR) duplicates
 	- Larger number of cells sequenced allows better identity of cell type populations
 	- Cheaper per cell cost
@@ -43,12 +43,12 @@ The choice of method involves the biological question of interest. The following
 	- Identification of allele-specific differences in expression
 	- Deeper sequencing of a smaller number of cells  
 
-Many of the same analysis steps need to occur for 3'-end sequencing as for full-length, but 3' protocols have been increasing in popularity and consist of a few more steps in the analysis. Therefore, our materials are going to focus on these 3' protocols with a focus on the droplet-based methods (inDrops, Drop-seq, 10 Genomics) for analysis.
+Many of the same analysis steps need to occur for 3'-end sequencing as for full-length, but 3' protocols have been increasing in popularity and consist of a few more steps in the analysis. Therefore, our materials are going to detail the analysis of data from these 3' protocols with a focus on the droplet-based methods (inDrops, Drop-seq, 10 Genomics).
 
 
-## Droplet-based reads
+## 3'-end reads (includes all droplet methods)
 
-For the droplet-based methods, reads originating from different molecules of the same transcript would have originated only from the 3' end of the transcripts, so would have a high likelihood of having the same sequence. However, the PCR step during library preparation could also generate read duplicates. To determine whether a read is a biological or technical duplicate, these methods use unique molecular identifiers, or UMIs. 
+For the 3'-end sequencing methods, reads originating from different molecules of the same transcript would have originated only from the 3' end of the transcripts, so would have a high likelihood of having the same sequence. However, the PCR step during library preparation could also generate read duplicates. To determine whether a read is a biological or technical duplicate, these methods use unique molecular identifiers, or UMIs. 
 
 - Reads with **different UMIs** mapping to the same transcript were derived from **different molecules** and are biological duplicates - each read should be counted.
 - Reads with the **same UMI** originated from the **same molecule** and are technical duplicates - the UMIs should be collapsed to be counted as a single read.
@@ -131,6 +131,9 @@ correct for amplification bias. The steps in this process include the following:
  3. Mapping/pseudo-mapping to cDNAs
  4. Collapsing UMIs and quantification of reads
 
+If using 10X Genomics library preparation method, then the [Cell Ranger pipeline](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) would be used for all of the above steps. 
+
+
 ## 1. Formatting reads and filtering noisy cellular barcodes
 
 The FASTQ files can then be used to parse out the cell barcodes, UMIs, and sample barcodes. For droplet-based methods, many of the cellular barcodes will match a low number of reads (< 1000 reads) due to:
@@ -159,11 +162,15 @@ To determine which gene the read originated from, the reads are aligned using tr
 
 ## 4. Collapsing UMIs and quantification of reads
 
-The duplicate UMIs are collapsed, and only the unique UMIs are quantified using a tool like Kallisto or featureCounts. The resulting output is a gene by cell matrix of counts, similar to:
+The duplicate UMIs are collapsed, and only the unique UMIs are quantified using a tool like Kallisto or featureCounts. The resulting output is a cell by gene matrix of counts:
 
-<img src="../img/.png" width="800">
+<p align="center">
+<img src="../img/count_matrix.png" width="250">
+</p>
 
-Now we have our count matrix containing the counts per gene for each cell, which we can use to explore our data for quality information.
+*Image credit: extracted from Lafzi et al. Tutorial: guidelines for the experimental design of single-cell RNA sequencing studies, Nature Protocols 2018 (https://doi.org/10.1038/s41596-018-0073-y)*
+
+Each value in the matrix represents the number of reads in a cell originating from the corresponding gene. Using the count matrix, we can explore and filter our data, keeping only the higher quality cells.
 
 ***
 
