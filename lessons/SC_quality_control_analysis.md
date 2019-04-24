@@ -75,6 +75,10 @@ We will explore each of these metrics in more detail and discuss expectations an
 
 Generally, with this metric you hope to see all of the samples with peaks in the distributions to be in relatively the same location between 10,000 and 100,000 reads per cell. 
 
+<p align="center">
+<img src="../img/sc_qc_reads.png" width="800">
+</p>
+ 
 ## Cell counts
 
 The cell counts are determined by the number of unique cellular barcodes detected. 
@@ -83,7 +87,7 @@ You expect the number of unique cellular barcodes to be around the number of seq
 
 > **NOTE:** During the **inDrop** protocol, the cellular barcodes are present in the hydrogels, which are encapsulated in the droplets with a single cell and lysis/reaction mixture. Upon treatment of UV and cell lysis, all components mix together inside the droplet and reverse transcription proceeds, followed by droplet breakup and linear amplification for library preparation. While each hydrogel should have a single cellular barcode associated with it, occasionally a hydrogel can have more than one cellular barcode. We often see all possible combinations of cellular barcodes at a low level, leading to a higher number of cellular barcodes than cells.
 
-<img src="../img/cell_counts.png" width="350">
+<img src="../img/sc_qc_cellcounts.png" width="350">
 
 
 ## UMI counts (transcripts) per cell
