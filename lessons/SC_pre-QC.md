@@ -16,7 +16,7 @@ Single-cell RNA-seq (scRNA-seq) is an exciting and cutting-edge method for analy
 
 <img src="../img/sc_analyses.png" width="900">
 
-The complexity of scRNA-seq data, which is generally characterized as:
+The complexity of scRNA-seq data involves having:
 
 - a **large volume of data:** expression data from thousands of cells
 - a **low depth of sequencing per cell:** results in a large number of genes without any corresponding reads (zero inflation)
