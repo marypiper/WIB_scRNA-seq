@@ -145,7 +145,7 @@ After performing the filtering, it's recommended to look back over the metrics t
 
 We will use this filtered count matrix for clustering our cells downstream, so it's important to remove any junk prior to this process.
 
-[Click here for next lesson]()
+[Click here for next lesson](https://github.com/marypiper/WIB_scRNA-seq/blob/master/lessons/SC_clustering_analysis.md)
 
 ---
 
