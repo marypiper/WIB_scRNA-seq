@@ -72,7 +72,7 @@ Following normalization, we want to identify the most variable genes (highly exp
 <img src="../img/variable_genes.png" width="400">
 </p>
 
-*Image credit: [Seurat - Guided Clustering Tutorial](https://satijalab.org/seurat/v3.0/pbmc3k_tutorial.html)*
+_Image credit: [Seurat - Guided Clustering Tutorial](https://satijalab.org/seurat/v3.0/pbmc3k_tutorial.html)_
 
 At this point in the workflow, we can either:
 
@@ -90,6 +90,8 @@ Using these highly variable genes from each sample, we integrate the samples to 
 <p align="center">
 <img src="../img/integration.png" width="600">
 </p>
+
+_Image credit: Stuart T and Butler A, et al. Comprehensive integration of single cell data, bioRxiv 2018 (https://doi.org/10.1101/460147)_
 
 ## Scaling and regression of sources of unwanted variation
 
