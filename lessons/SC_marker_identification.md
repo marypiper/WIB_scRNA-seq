@@ -21,7 +21,7 @@ _**Goals:**_
  
  - _To **determine the gene markers** for each of the clusters_
  - _To **identify cell types** of each cluster using markers_
- - _To determine whether need to **re-cluster based on cell type markers**, perhaps clusters need to be merged or split
+ - _To determine whether need to **re-cluster based on cell type markers**, perhaps clusters need to be merged or split_
 
 _**Challenges:**_
  
