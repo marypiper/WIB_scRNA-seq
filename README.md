@@ -4,10 +4,10 @@ This repository contains the materials for the Women in Bioinformatics meet-up f
 
 **Materials:**
 
-[Raw data to generation of the count matrix](https://github.com/marypiper/WIB_scRNA-seq/blob/master/lessons/SC_pre-QC.md)
-[Quality control and filtering](https://github.com/marypiper/WIB_scRNA-seq/blob/master/lessons/SC_quality_control_analysis.md)
-[Integration of datasets and clustering](https://github.com/marypiper/WIB_scRNA-seq/blob/master/lessons/SC_clustering_analysis.md)
-[Marker identification and identification of cell types](https://github.com/marypiper/WIB_scRNA-seq/blob/master/lessons/SC_marker_identification.md)
+- [Raw data to generation of the count matrix](https://github.com/marypiper/WIB_scRNA-seq/blob/master/lessons/SC_pre-QC.md)
+- [Quality control and filtering](https://github.com/marypiper/WIB_scRNA-seq/blob/master/lessons/SC_quality_control_analysis.md)
+- [Integration of datasets and clustering](https://github.com/marypiper/WIB_scRNA-seq/blob/master/lessons/SC_clustering_analysis.md)
+- [Marker identification and identification of cell types](https://github.com/marypiper/WIB_scRNA-seq/blob/master/lessons/SC_marker_identification.md)
 
 
 *These materials have been developed by Mary Piper. These are open access materials distributed under the terms of the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.*
