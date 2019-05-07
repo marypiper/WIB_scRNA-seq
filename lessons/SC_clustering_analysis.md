@@ -89,7 +89,16 @@ Oftentimes, if samples are created using different conditions (or batches), the 
 
 _**This step can greatly improve your clustering when you have multiple samples**. It can help to first run samples individually if unsure what clusters to expect, but when clustering the cells from multiple conditions, integration can help ensure the same cell types cluster together._
 
-Using these highly variable genes from each sample, we integrate the samples to overlay cell types that are the same. The process of integration uses canonical correlation analysis (CCA) and mutual nearest neighbors (MNN) to identify shared subpopulations across samples. Specifically, this method will identify the "cell pairwise correspondences between single cells across the samples, termed 'anchors', to transform the samples into a shared space, even in the presence of extensive biological differences" [[Stuart and Bulter et al. (2018)](https://www.biorxiv.org/content/early/2018/11/02/460147)]. If cell types are present in one dataset, but not the other, then the cells will still appear as a separate sample-specific cluster.
+Using the shared highly variable genes from each sample, we integrate the samples to overlay cells that are similar or have a "common set of biological features". The process of integration uses canonical correlation analysis (CCA) and mutual nearest neighbors (MNN) to identify shared subpopulations across samples or datasets [[Stuart and Bulter et al. (2018)](https://www.biorxiv.org/content/early/2018/11/02/460147)]. 
+
+Specifically, this method expects "correspondences" or **shared biological states** among at least a subset of single cells across the samples. 
+
+1. CCA uses **shared highly variable genes** to reduce the dimensionality of the data and align the cells in each sample into the maximally correlated space (based on sets of genes exhibiting robust correlation in expression).
+2. Identify mutual nearest neighbors, or 'anchors' across datasets (sometimes incorrect anchors are identified)
+3. Assess the similarity between anchor pairs by the overlap in their local neighborhoods (incorrect anchors will have low scores)
+4. Use anchor scores to correct the position provide the expression transformation to allow for the integration of the datasets (different samples, datasets, modalities)
+
+If cell types are present in one dataset, but not the other, then the cells will still appear as a separate sample-specific cluster.
 
 <p align="center">
 <img src="../img/integration.png" width="600">
@@ -120,7 +129,7 @@ Cell cycle variation is a common source of uninteresting variation in single-cel
 > - **M:** M phase is the nuclear division of the cell (consisting of prophase, metaphase, anaphase and telophase).
 	
 
-The [Cell-Cycle Scoring and Regressio tutorial](https://satijalab.org/seurat/v3.0/cell_cycle_vignette.html) from Seurat makes available a list of cell cycle phase marker genes for humans, while the HBC core has [compiled lists](https://github.com/hbc/tinyatlas/tree/master/cell_cycle) for other organisms.
+The [Cell-Cycle Scoring and Regression tutorial](https://satijalab.org/seurat/v3.0/cell_cycle_vignette.html) from Seurat makes available a list of cell cycle phase marker genes for humans, while the HBC core has [compiled lists](https://github.com/hbc/tinyatlas/tree/master/cell_cycle) for other organisms.
 
 After scoring each gene for cell cycle phase, we can perform PCA using the expression of cell cycle genes. If the cells group by cell cycle in the PCA, then we would want to regress out cell cycle variation, **unless cells are differentiating**.  
 
