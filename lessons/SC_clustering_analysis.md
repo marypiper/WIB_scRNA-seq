@@ -181,9 +181,9 @@ PC selection — identifying the true dimensionality of a dataset — is an impo
 
 We can now use these significant PCs identified  to determine which cells exhibit similar expression patterns for clustering. To do this, Seurat uses a graph-based clustering approach, which embeds cells in a graph structure, using a K-nearest neighbor (KNN) graph (by default), with edges drawn between cells with similar gene expression patterns. Then, it attempts to partition this graph into highly interconnected ‘quasi-cliques’ or ‘communities’ [[Seurat - Guided Clustering Tutorial](https://satijalab.org/seurat/v3.0/pbmc3k_tutorial.html)].
 
-The `resolution` is an important argument that sets the "granularity" of the downstream clustering and will need to be optimized to the experiment.  For datasets of 3,000 - 5,000 cellsbut generally yield good clustering when set between `0.4`-`1.4` . Increased resolution values lead to a greater number of clusters, which is often required for larger datasets. 
+The `resolution` is an important argument that sets the "granularity" of the downstream clustering and will need to be optimized to the experiment.  For datasets of 3,000 - 5,000 cells, the `resolution` set between `0.4`-`1.4` generally yields good clustering. Increased resolution values lead to a greater number of clusters, which is often required for larger datasets. 
 
-We provide a series of resolution options during clustering, which can be used downstream to choose the best resolution.
+We often provide a series of resolution options during clustering, which can be used downstream to choose the best resolution.
 
 ## Creating non-linear dimensional reduction (UMAP/tSNE)
 
