@@ -24,7 +24,7 @@ Now that we have our high quality cells, we want to know the different cell type
 _**Goals:**_ 
  
  - _To **generate cell type-specific clusters** and use known markers to determine identity of some/all of the clusters._
- - _To **determine whether clusters represent true cell types or cluster due to biological or technical variation**, such as clusters of cells in S phase, clusters of specific batches, or cells with high mitochondrial content._
+ - _To **determine whether clusters represent true cell types or cluster due to biological or technical variation**, such as clusters of cells in the S phase of the cell cycle, clusters of specific batches, or cells with high mitochondrial content._
 
 _**Challenges:**_
  
@@ -34,11 +34,11 @@ _**Challenges:**_
 
 _**Recommendations:**_
  
- - _If you have **more than one condition**, perform integration to align the cells_
  - _Have a good idea of your expectations for the **cell types to be present** prior to performing the clustering. Know whether you expect cell types of low complexity or higher mitochondrial content or whether the cells are differentiating_
  - _**Regress out** number of UMIs, mitochondrial content, and cell cycle, if needed and appropriate for experiment, so not to drive clustering_
- - _Remove from the analysis any clusters that cluster by **mitochondrial content** if low UMIs/genes after regression of mitochondrial content (junk cells)_
+ - _Identify any junk clusters for removal. Possible junk clusters include those with high **mitochondrial content** and low UMIs/genes after regression of mitochondrial content (junk cells)_
  - _If **not detecting all cell types as separate clusters**, try changing the resolution or the number of PCs used for clustering_
+ - _If you have **more than one condition**, it's often helpful to perform integration to align the cells_
 
 ## Clustering workflow
 
@@ -50,7 +50,7 @@ To do this we are going to perform a clustering analysis. The workflow for this 
 To identify clusters, the following steps will be performed:
 
 1. **Normalization** and **identification of high variance genes** in each sample
-2. **Integration** of the samples using shared highly variable genes (optional)
+2. **Integration** of the samples using shared highly variable genes (optional, but recommended to align cells from different samples)
 3. **Scaling** and **regression** of sources of unwanted variation (e.g. number of UMIs per cell, mitochondrial transcript abundance, cell cycle phase)
 4. **Clustering cells** based on top PCs (metagenes)
 5. Exploration of **quality control metrics**: determine whether clusters unbalanced wrt UMIs, genes, cell cycle, mitochondrial content, samples, etc.
@@ -66,13 +66,17 @@ The first step in the analysis is to normalize the raw counts to account for dif
 2. multiplying this by a scale factor (10,000 by default)
 3. log-transforming the result
 
-Following normalization, we want to identify the most variable genes (highly expressed in some cells and lowly expressed in others) to use for downstream clustering analyses. The mean-variance relationship of the data is modelled, and the 2,000 most variable genes are returned.
+Following normalization, we want to **identify the most variable genes** (highly expressed in some cells and lowly expressed in others) to use for downstream clustering analyses. 
+
+The mean-variance relationship of the data is modelled, and the 2,000 most variable genes are returned.
  
 <p align="center">
 <img src="../img/variable_genes.png" width="400">
 </p>
 
 _Image credit: [Seurat - Guided Clustering Tutorial](https://satijalab.org/seurat/v3.0/pbmc3k_tutorial.html)_
+
+> **NOTE:** Seurat has just incorporated the `sctransform` tool for better normalization, scaling, and finding of variable genes. There is a new [vignette](https://satijalab.org/seurat/v3.0/sctransform_vignette.html) and [preprint](https://www.biorxiv.org/content/biorxiv/early/2019/03/18/576827.full.pdf) available to explore this new methodology. If using `sctransform`, there is no need to regress out number of UMIs as it is corrected for in the funciton.
 
 At this point in the workflow, we can either:
 
@@ -83,7 +87,7 @@ Oftentimes, if samples are created using different conditions (or batches), the 
 
 ## **Integration** of the samples using shared highly variable genes (optional)
 
-_**This step can greatly improve your clustering**. It can help to first run samples individually if unsure what clusters to expect, but when clustering the cells from multiple conditions, integration can help ensure the same cell types cluster together._
+_**This step can greatly improve your clustering when you have multiple samples**. It can help to first run samples individually if unsure what clusters to expect, but when clustering the cells from multiple conditions, integration can help ensure the same cell types cluster together._
 
 Using these highly variable genes from each sample, we integrate the samples to overlay cell types that are the same. The process of integration uses canonical correlation analysis (CCA) and mutual nearest neighbors (MNN) to identify shared subpopulations across samples. Specifically, this method will identify the "cell pairwise correspondences between single cells across the samples, termed 'anchors', to transform the samples into a shared space, even in the presence of extensive biological differences" [[Stuart and Bulter et al. (2018)](https://www.biorxiv.org/content/early/2018/11/02/460147)]. If cell types are present in one dataset, but not the other, then the cells will still appear as a separate sample-specific cluster.
 
