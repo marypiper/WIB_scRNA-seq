@@ -98,7 +98,8 @@ Specifically, this method expects "correspondences" or **shared biological state
 1. CCA uses **shared highly variable genes** to reduce the dimensionality of the data and align the cells in each sample into the maximally correlated space (based on sets of genes exhibiting robust correlation in expression).
 2. Identify mutual nearest neighbors, or 'anchors' across datasets (sometimes incorrect anchors are identified)
 3. Assess the similarity between anchor pairs by the overlap in their local neighborhoods (incorrect anchors will have low scores)
-4. Use anchor scores to correct the position provide the expression transformation to allow for the integration of the datasets (different samples, datasets, modalities)
+4. Use anchors and corresponding scores to transform cell expression values, allowing for the integration of the datasets (different samples, datasets, modalities)
+	- Transformation of each cell uses a weighted average of the two cells of each anchor across anchors of the datasets. Weights determined by cell similarity score (distance between cell and k nearest anchors) and anchor scores, so cells in the same neighborhood should have similar correction values.
 
 If cell types are present in one dataset, but not the other, then the cells will still appear as a separate sample-specific cluster.
 
